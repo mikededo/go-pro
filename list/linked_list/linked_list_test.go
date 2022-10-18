@@ -1,6 +1,9 @@
 package linkedlist
 
-import "testing"
+import (
+	"go-ds/helpers"
+	"testing"
+)
 
 func initBaseList() *LL[int] {
 	l := NewLinkedList[int]()
@@ -21,12 +24,6 @@ func validatePushedValues(t *testing.T, l *LL[int]) {
 	}
 	if v, _ := l.At(2); v != 2 {
 		wantedAtPosition(t, 2, v, 2)
-	}
-}
-
-func validateLength(t *testing.T, wanted, got int) {
-	if got != wanted {
-		t.Errorf("got %d for length, but wanted %d", got, wanted)
 	}
 }
 
@@ -74,7 +71,7 @@ func TestPush(t *testing.T) {
 		l.Push(1)
 		l.Push(2)
 
-		validateLength(t, 3, l.Length)
+		helpers.ValidateLength(t, 3, l.Length)
 		validatePushedValues(t, l)
 	})
 
@@ -82,7 +79,7 @@ func TestPush(t *testing.T) {
 		l := NewLinkedList[int]()
 		l.Push(0).Push(1).Push(2)
 
-		validateLength(t, 3, l.Length)
+		helpers.ValidateLength(t, 3, l.Length)
 		validatePushedValues(t, l)
 	})
 }
@@ -93,11 +90,11 @@ func TestPop(t *testing.T) {
 
 		l.Pop()
 		validatePoppedValue(t, l, 1, 1)
-		validateLength(t, 2, l.Length)
+		helpers.ValidateLength(t, 2, l.Length)
 
 		l.Pop()
 		validatePoppedValue(t, l, 0, 0)
-		validateLength(t, 1, l.Length)
+		helpers.ValidateLength(t, 1, l.Length)
 	})
 
 	t.Run("should perform chained pop", func(t *testing.T) {
@@ -105,7 +102,7 @@ func TestPop(t *testing.T) {
 
 		l.Pop().Pop()
 		validatePoppedValue(t, l, 0, 0)
-		validateLength(t, 1, l.Length)
+		helpers.ValidateLength(t, 1, l.Length)
 	})
 }
 
@@ -114,7 +111,7 @@ func TestDelete(t *testing.T) {
 		l := initBaseList()
 
 		l.Delete(0)
-		validateLength(t, 2, l.Length)
+		helpers.ValidateLength(t, 2, l.Length)
 		v, _ := l.At(0)
 		if v != 1 {
 			wantedAtPosition(t, 0, v, 1)
@@ -135,7 +132,7 @@ func TestDelete(t *testing.T) {
 		l := initBaseList()
 
 		l.Delete(1)
-		validateLength(t, 2, l.Length)
+		helpers.ValidateLength(t, 2, l.Length)
 		v, _ := l.At(1)
 		if v != 2 {
 			wantedAtPosition(t, 1, v, 2)
@@ -171,7 +168,7 @@ func TestIntegration(t *testing.T) {
 		}
 
 		l.Pop()
-		validateLength(t, 2, l.Length)
+		helpers.ValidateLength(t, 2, l.Length)
 		l.Push(4)
 
 		v, _ := l.At(l.Length - 1)
