@@ -47,8 +47,6 @@ func (s *Stack[K]) Pop() *Stack[K] {
 			c.Next = nil
 		}
 		s.length--
-
-		return s
 	}
 
 	return s
