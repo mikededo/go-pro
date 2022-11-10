@@ -21,14 +21,14 @@ func NewTaxiManager(taxis int) *TaxiManager {
 	}
 }
 
-func (t *TaxiManager) AssignPassenger(duration int) error {
-	f, err := findAndPopFirstFreeTaxi(t)
+func (tm *TaxiManager) AssignPassenger(duration int) error {
+	f, err := tm.findAndPopFirstFreeTaxi()
 	if err != nil {
 		return err
 	}
 
-	taxi := t.taxis[f]
-	taxi.StartTrip(duration, t.FreePassenger)
+	taxi := tm.taxis[f]
+	taxi.StartTrip(duration, tm.FreePassenger)
 
 	return nil
 }
@@ -37,7 +37,7 @@ func (t *TaxiManager) FreePassenger(id int) {
 	t.freeQueue = append(t.freeQueue, id)
 }
 
-func findAndPopFirstFreeTaxi(tm *TaxiManager) (int, error) {
+func (tm *TaxiManager) findAndPopFirstFreeTaxi() (int, error) {
 	if len(tm.freeQueue) == 0 {
 		return 0, errors.New("no available taxis")
 	}
