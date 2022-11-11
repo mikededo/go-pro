@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type Taxi struct {
 	Id     int
@@ -16,7 +19,9 @@ func NewTaxi(id int) *Taxi {
 
 func (t *Taxi) StartTrip(duration int, done func(int)) {
 	go func() {
+		fmt.Printf("[Taxi %d]: Started trip - duration: %d\n", t.Id, duration)
 		time.Sleep(time.Duration(duration) * time.Millisecond)
 		done(t.Id)
+		fmt.Printf("[Taxi %d]: Finished trip\n", t.Id)
 	}()
 }
