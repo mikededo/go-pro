@@ -1,21 +1,10 @@
-package bus
+package repository
 
 import (
 	"fmt"
 	"reflect"
 	"sync"
 )
-
-type Bus interface {
-	// Nofity notifies an event to all listeners for the topic
-	Nofity(topic string, payload ...interface{})
-	// Clear clears all handles from a topic
-	Clear(topic string)
-	// Subscribe subscribes a handler to a topic
-	Subscribe(topic string, cb interface{}) error
-	// Unsubscribe unsubscribes a handler from a topic
-	Unsubscribe(topic string, cb interface{}) error
-}
 
 type handler struct {
 	callback reflect.Value
@@ -24,7 +13,7 @@ type handler struct {
 
 type topicHandlers map[string][]*handler
 
-type eventBus struct {
+type InternalBus struct {
 	mtx      sync.RWMutex
 	buffSize int
 	handlers topicHandlers
@@ -37,14 +26,14 @@ func newHandler(buffSize int, cb interface{}) *handler {
 	}
 }
 
-func NewEventBus(buffSize int) *eventBus {
-	return &eventBus{
+func NewEventBus(buffSize int) *InternalBus {
+	return &InternalBus{
 		buffSize: buffSize,
 		handlers: make(topicHandlers),
 	}
 }
 
-func (b *eventBus) Subscribe(topic string, cb interface{}) error {
+func (b *InternalBus) Subscribe(topic string, cb interface{}) error {
 	if err := isValidHandler(cb); err != nil {
 		return err
 	}
@@ -70,7 +59,7 @@ func (b *eventBus) Subscribe(topic string, cb interface{}) error {
 	return nil
 }
 
-func (b *eventBus) Unsubscribe(topic string, cb interface{}) error {
+func (b *InternalBus) Unsubscribe(topic string, cb interface{}) error {
 	if err := isValidHandler(cb); err != nil {
 		return err
 	}
@@ -102,7 +91,7 @@ func (b *eventBus) Unsubscribe(topic string, cb interface{}) error {
 
 }
 
-func (b *eventBus) Notify(topic string, payload ...interface{}) {
+func (b *InternalBus) Notify(topic string, payload ...interface{}) {
 	gp := generatePayload(payload)
 
 	// lock mutex for read
@@ -117,7 +106,7 @@ func (b *eventBus) Notify(topic string, payload ...interface{}) {
 	}
 }
 
-func (b *eventBus) Clear(topic string) {
+func (b *InternalBus) Clear(topic string) {
 	hs, ok := b.handlers[topic]
 	if !ok {
 		return

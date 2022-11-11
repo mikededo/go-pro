@@ -4,14 +4,16 @@ import (
 	"fmt"
 	"strconv"
 
-	repository "github.com/mddg/go-taxi-events/internal/repository/taxi_manager"
-	"github.com/mddg/go-taxi-events/internal/usecases"
+	bRepository "github.com/mddg/go-taxi-events/internal/domain/bus/repository"
+	tRepository "github.com/mddg/go-taxi-events/internal/domain/taxi_manager/repository"
+	"github.com/mddg/go-taxi-events/internal/domain/taxi_manager/usecases"
 )
 
 func main() {
-	var inputValue string
-	tr := repository.NewMemoryTaxiManagerRepository()
+	eb := bRepository.NewEventBus(1)
+	tr := tRepository.NewMemoryTaxiManagerRepository(eb)
 
+	var inputValue string
 	for inputValue != "x" {
 		_, err := fmt.Scanf("%s", &inputValue)
 		if err != nil {
@@ -20,8 +22,9 @@ func main() {
 
 		v, err := strconv.Atoi(inputValue)
 		if err == nil {
-			usecases.NewAssignTaxiUseCase(tr).AssignTaxiUseCase(v)
+			usecases.NewNotifyTaxiAssignToBusUseCase(tr).Execute(v)
 		} else if fmt.Sprint(inputValue) == "x" {
+			usecases.NewClearTaxiBusSubscriptionUseCase(tr).Execute()
 			return
 		}
 	}
