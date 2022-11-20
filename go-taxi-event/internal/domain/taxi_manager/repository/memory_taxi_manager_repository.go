@@ -1,8 +1,8 @@
 package repository
 
 import (
-	bus "github.com/mddg/go-taxi-events/internal/domain/bus/repository"
-	"github.com/mddg/go-taxi-events/internal/domain/taxi_manager/entity"
+	bus "github.com/mddg/go-pro/go-taxi-event/internal/domain/bus/repository"
+	"github.com/mddg/go-pro/go-taxi-event/internal/domain/taxi_manager/entity"
 )
 
 type MemoryTaxiManagerRepository struct {

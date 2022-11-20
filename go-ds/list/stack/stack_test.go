@@ -1,7 +1,9 @@
 package stack
 
-import "testing"
-import "go-ds/helpers"
+import (
+	"github.com/mddg/go-pro/go-ds/helpers"
+	"testing"
+)
 
 func validateValue(t *testing.T, want, got int) {
 	if got != want {

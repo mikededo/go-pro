@@ -1,7 +1,7 @@
 package queue
 
 import (
-	"go-ds/helpers"
+	"github.com/mddg/go-pro/go-ds/helpers"
 	"testing"
 )
 

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
-	bRepository "github.com/mddg/go-taxi-events/internal/domain/bus/repository"
-	tRepository "github.com/mddg/go-taxi-events/internal/domain/taxi_manager/repository"
-	"github.com/mddg/go-taxi-events/internal/domain/taxi_manager/usecases"
+	bRepository "github.com/mddg/go-pro/go-taxi-event/internal/domain/bus/repository"
+	tRepository "github.com/mddg/go-pro/go-taxi-event/internal/domain/taxi_manager/repository"
+	"github.com/mddg/go-pro/go-taxi-event/internal/domain/taxi_manager/usecases"
 )
 
 func main() {

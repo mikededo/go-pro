@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"github.com/mddg/go-taxi-events/internal/domain/taxi_manager/repository"
+	"github.com/mddg/go-pro/go-taxi-event/internal/domain/taxi_manager/repository"
 )
 
 type ClearTaxiBusSubscriptionUseCase struct {

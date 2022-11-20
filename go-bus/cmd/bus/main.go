@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	bus "github.com/mddg/go-bus/internal"
+	bus "github.com/mddg/go-pro/go-bus/internal"
 )
 
 func genHandler(id int) func(...int) {
