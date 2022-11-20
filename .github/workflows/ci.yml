@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.19.x
+    - uses: actions/checkout@v2
+      with:
+         path: './src/github.com/mikededo/go-ds'
+    - name: Install gotestsum
+      run: go install gotest.tools/gotestsum@latest
+    - name: Run tests
+      run: gotestsum --format pkgname -- -race ./...
+      working-directory: './src/github.com/mikededo/go-ds'
